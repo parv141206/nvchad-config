@@ -11,21 +11,25 @@ map("n", "<C-k>", function()
     -- If it's open, close it
     require("nvchad.term").close(term_id)
   else
-    -- If it's closed, open it
+    -- If it's closed, open it with pwsh and increased size
     require("nvchad.term").toggle {
       pos = "float",
       id = term_id,
       float_opts = {
         relative = "editor",
-        row = 0.3,
-        col = 0.25,
-        width = 0.5,
-        height = 0.4,
+        row = 0.1,    -- Adjusted position from the top
+        col = 0.1,    -- Adjusted position from the left
+        width = 0.8,  -- Increased width to 80% of the editor
+        height = 0.6, -- Increased height to 60% of the editor
         border = "single",
-      }
+      },
     }
   end
 end, { desc = "Toggle floating terminal" })
+
+-- Mapping for selecting all text in normal mode with Ctrl + A
+map("n", "<C-a>", "ggVG", { desc = "Select all text" })
+
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 vim.wo.number = false

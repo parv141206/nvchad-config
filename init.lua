@@ -15,6 +15,18 @@ local lazy_config = require "configs.lazy"
 -- load plugins
 require("lazy").setup({
   {
+    'barrett-ruth/live-server.nvim',
+    build = 'pnpm add -g live-server',
+    cmd = { 'LiveServerStart', 'LiveServerStop' },
+    config = true
+  },
+  {
+    "supermaven-inc/supermaven-nvim",
+    config = function()
+      require("supermaven-nvim").setup({})
+    end,
+  },
+  {
     "NvChad/NvChad",
     lazy = false,
     branch = "v2.5",
@@ -23,6 +35,80 @@ require("lazy").setup({
 
   { import = "plugins" },
 }, lazy_config)
+
+require("supermaven-nvim").setup({
+  keymaps = {
+    accept_suggestion = "<Tab>",
+    clear_suggestion = "<C-]>",
+    accept_word = "<C-j>",
+  },
+  ignore_filetypes = { cpp = true }, -- or { "cpp", }
+  color = {
+    suggestion_color = "#ffffff",
+    cterm = 244,
+  },
+  log_level = "info",                -- set to "off" to disable logging completely
+  disable_inline_completion = false, -- disables inline completion for use with cmp
+  disable_keymaps = false,           -- disables built in keymaps for more manual control
+  condition = function()
+    return false
+  end -- condition to check for stopping supermaven, `true` means to stop supermaven when the condition is true.
+})
+
+-- Configuration for nvim-cmp
+local cmp = require "cmp"
+
+local options = {
+  completion = { completeopt = "menu,menuone" },
+  snippet = {
+    expand = function(args)
+      require("luasnip").lsp_expand(args.body)
+    end,
+  },
+  mapping = {
+    ["<C-p>"] = cmp.mapping.select_prev_item(),
+    ["<C-n>"] = cmp.mapping.select_next_item(),
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.close(),
+    ["<CR>"] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
+    },
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif require("luasnip").expand_or_jumpable() then
+        require("luasnip").expand_or_jump()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif require("luasnip").jumpable(-1) then
+        require("luasnip").jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+  },
+  sources = {
+    { name = "supermaven" },
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = "buffer" },
+    { name = "nvim_lua" },
+    { name = "path" },
+  },
+}
+
+-- Set up nvim-cmp with the options defined above
+cmp.setup(options)
+
+
 require("menu")
 -- For keyboard users
 vim.keymap.set("n", "<C-t>", function() require("menu").open("default") end, {})
@@ -61,3 +147,30 @@ vim.api.nvim_set_keymap('n', '<C-S-Down>', ':resize +2<CR>', opts)
 vim.api.nvim_set_keymap('n', '<C-S-Left>', ':vertical resize -2<CR>', opts)
 -- Resize right
 vim.api.nvim_set_keymap('n', '<C-S-Right>', ':vertical resize +2<CR>', opts)
+vim.o.shell = "pwsh.exe"
+
+
+
+-- default config:
+require('peek').setup({
+  auto_load = true,        -- whether to automatically load preview when
+  -- entering another markdown buffer
+  close_on_bdelete = true, -- close preview window on buffer delete
+
+  syntax = true,           -- enable syntax highlighting, affects performance
+
+  theme = 'dark',          -- 'dark' or 'light'
+
+  update_on_change = true,
+
+  app = 'webview', -- 'webview', 'browser', string or a table of strings
+  -- explained below
+
+  filetype = { 'markdown' }, -- list of filetypes to recognize as markdown
+
+  -- relevant if update_on_change is true
+  throttle_at = 200000,   -- start throttling when file exceeds this
+  -- amount of bytes in size
+  throttle_time = 'auto', -- minimum amount of time in milliseconds
+  -- that has to pass before starting new render
+})

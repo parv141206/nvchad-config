@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "bearded-arc",
+  theme = "chadracula-evondev",
   transparency = true,
   hl_override = {
     Comment = { italic = true },
@@ -53,6 +53,7 @@ M.ui = {
     }
   },
   cmp = {
+
     lspkind_text = true,
     style = "default", -- default/flat_light/flat_dark/atom/atom_colored
     format_colors = {
@@ -95,4 +96,6 @@ M.colorify = {
   virt_text = "󱓻 ",
   highlight = { hex = true, lspvars = true },
 }
+
+vim.api.nvim_set_hl(0, "CmpItemKindSupermaven", { fg = "#6CC644" })
 return M
