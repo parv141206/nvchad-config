@@ -9,23 +9,23 @@ if not vim.uv.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
-
+-- Hello consomncoidsncuansdcuinadoscuoaisc
 local lazy_config = require "configs.lazy"
-
+vim.g.instant_username = "parv141206"
 -- load plugins
 require("lazy").setup({
   {
-    'barrett-ruth/live-server.nvim',
-    build = 'pnpm add -g live-server',
-    cmd = { 'LiveServerStart', 'LiveServerStop' },
-    config = true
-  },
-  {
-    "supermaven-inc/supermaven-nvim",
+    "jbyuki/instant.nvim",
     config = function()
-      require("supermaven-nvim").setup({})
+      -- Set your username for collaborative editing
+      vim.g.instant_username = "parv141206"
     end,
-  },
+  }, {
+  "supermaven-inc/supermaven-nvim",
+  config = function()
+    require("supermaven-nvim").setup({})
+  end,
+},
   {
     "NvChad/NvChad",
     lazy = false,
