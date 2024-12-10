@@ -6,8 +6,8 @@
 local M = {}
 
 M.base46 = {
-  theme = "bearded-arc",
-  transparency = true,
+  theme = "tokyodark",
+  transparency = false,
   hl_override = {
     Comment = { italic = true },
     ["@comment"] = { italic = true },
@@ -43,6 +43,19 @@ M.nvdash = {
 
 }
 M.ui = {
+  statusline = {
+    theme = "default",
+    separator_style = "arrow",
+    order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "cursor" },
+    modules = {
+      abc = function()
+        return "hi"
+      end,
+
+      xyz = "hi",
+      f = "%F"
+    }
+  },
 
   tabufline = {
     order = { "treeOffset", "buffers", "tabs", "abc" },
@@ -61,8 +74,8 @@ M.ui = {
     },
 
     statusline = {
-      theme = "default",
-      separator_style = "arrow",
+      theme = "vscode",
+      separator_style = "vscode",
       order = { "mode", "f", "git", "%=", "lsp_msg", "%=", "lsp", "cwd", "xyz", "abc" },
       modules = {
         abc = function()

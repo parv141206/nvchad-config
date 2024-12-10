@@ -9,23 +9,30 @@ if not vim.uv.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
--- Hello consomncoidsncuansdcuinadoscuoaisc
+
 local lazy_config = require "configs.lazy"
-vim.g.instant_username = "parv141206"
+
 -- load plugins
 require("lazy").setup({
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   {
-    "jbyuki/instant.nvim",
+    'barrett-ruth/live-server.nvim',
+    build = 'pnpm add -g live-server',
+    cmd = { 'LiveServerStart', 'LiveServerStop' },
+    config = true
+  },
+  {
+    "azratul/live-share.nvim",
+    dependencies = {
+      "jbyuki/instant.nvim",
+    }
+  },
+  {
+    "supermaven-inc/supermaven-nvim",
     config = function()
-      -- Set your username for collaborative editing
-      vim.g.instant_username = "parv141206"
+      require("supermaven-nvim").setup({})
     end,
-  }, {
-  "supermaven-inc/supermaven-nvim",
-  config = function()
-    require("supermaven-nvim").setup({})
-  end,
-},
+  },
   {
     "NvChad/NvChad",
     lazy = false,
@@ -54,6 +61,10 @@ require("supermaven-nvim").setup({
     return false
   end -- condition to check for stopping supermaven, `true` means to stop supermaven when the condition is true.
 })
+
+
+-- setup must be called before loading
+
 
 -- Configuration for nvim-cmp
 local cmp = require "cmp"
@@ -149,7 +160,7 @@ vim.api.nvim_set_keymap('n', '<C-S-Left>', ':vertical resize -2<CR>', opts)
 vim.api.nvim_set_keymap('n', '<C-S-Right>', ':vertical resize +2<CR>', opts)
 vim.o.shell = "pwsh.exe"
 
-
+vim.opt.guifont = "Cascadia Code:h12"
 
 -- default config:
 require('peek').setup({
