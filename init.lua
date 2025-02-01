@@ -27,12 +27,12 @@ require("lazy").setup({
       "jbyuki/instant.nvim",
     }
   },
-  {
-    "supermaven-inc/supermaven-nvim",
-    config = function()
-      require("supermaven-nvim").setup({})
-    end,
-  },
+  -- {
+  --   "supermaven-inc/supermaven-nvim",
+  --   config = function()
+  --     require("supermaven-nvim").setup({})
+  --   end,
+  -- },
   {
     "NvChad/NvChad",
     lazy = false,
@@ -42,26 +42,6 @@ require("lazy").setup({
 
   { import = "plugins" },
 }, lazy_config)
-
-require("supermaven-nvim").setup({
-  keymaps = {
-    accept_suggestion = "<Tab>",
-    clear_suggestion = "<C-]>",
-    accept_word = "<C-j>",
-  },
-  ignore_filetypes = { cpp = true }, -- or { "cpp", }
-  color = {
-    suggestion_color = "#ffffff",
-    cterm = 244,
-  },
-  log_level = "info",                -- set to "off" to disable logging completely
-  disable_inline_completion = false, -- disables inline completion for use with cmp
-  disable_keymaps = false,           -- disables built in keymaps for more manual control
-  condition = function()
-    return false
-  end -- condition to check for stopping supermaven, `true` means to stop supermaven when the condition is true.
-})
-
 
 -- setup must be called before loading
 
@@ -158,9 +138,11 @@ vim.api.nvim_set_keymap('n', '<C-S-Down>', ':resize +2<CR>', opts)
 vim.api.nvim_set_keymap('n', '<C-S-Left>', ':vertical resize -2<CR>', opts)
 -- Resize right
 vim.api.nvim_set_keymap('n', '<C-S-Right>', ':vertical resize +2<CR>', opts)
-vim.o.shell = "pwsh.exe"
+vim.o.shell = "bash"
 
 vim.opt.guifont = "Cascadia Code:h12"
+
+vim.opt.fillchars = { eob = '~' }
 
 -- default config:
 require('peek').setup({
